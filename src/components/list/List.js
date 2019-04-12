@@ -1,81 +1,39 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-const List = () => (
+import ChevronIcon from 'components/icons/ChevronIcon';
+import LookingGlassIcon from 'components/icons/LookingGlassIcon';
+import UnlockIcon from 'components/icons/UnlockIcon';
+import StarIcon from 'components/icons/StarIcon';
+
+export const List = () => (
   <ListWrapper>
     <Search>
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-        data-svg="search"
-      >
-        <circle
-          fill="none"
-          stroke="#fff"
-          strokeWidth="1.1"
-          cx="9"
-          cy="9"
-          r="7"
-        />
-        <path
-          fill="none"
-          stroke="#fff"
-          strokeWidth="1.1"
-          d="M14,14 L18,18 L14,14 Z"
-        />
-      </svg>
+      <LookingGlassIcon size={20} />
       <input type="search" placeholder="Search 125 snippets" />
     </Search>
     <Sort>
       <div>
-        Order field: <SortBy>description &or;</SortBy>
+        Order field:{' '}
+        <SortBy>
+          description <ChevronIcon size={10} />
+        </SortBy>
       </div>
       <div>
-        direction: <SortBy>desc &or;</SortBy>
+        direction:{' '}
+        <SortBy>
+          desc <ChevronIcon size={10} />
+        </SortBy>
       </div>
     </Sort>
     <ItemsList>
       {[...Array(100)].map((item, index) => (
         <Item className={index === 3 && 'active'}>
           <Icon>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              data-svg="unlock"
-            >
-              <rect
-                fill="none"
-                stroke="#fff"
-                x="3.5"
-                y="8.5"
-                width="13"
-                height="10"
-              />
-              <path
-                fill="none"
-                stroke="#fff"
-                d="M6.5,8.5 L6.5,4.9 C6.5,3 8.1,1.5 10,1.5 C11.9,1.5 13.5,3 13.5,4.9"
-              />
-            </svg>
+            <UnlockIcon size={20} />
           </Icon>
           <Icon>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <polygon
-                fill="none"
-                stroke="#fff"
-                strokeWidth="1.01"
-                points="10 2 12.63 7.27 18.5 8.12 14.25 12.22 15.25 18 10 15.27 4.75 18 5.75 12.22 1.5 8.12 7.37 7.27"
-              />
-            </svg>
+            <StarIcon size={20} />
           </Icon>
           <Text>
             <Description>
@@ -171,14 +129,6 @@ const Item = styled.div`
     z-index: 2;
     position: relative;
     color: ${({ theme }) => theme.textActive};
-
-    svg {
-      path,
-      polygon,
-      rect {
-        stroke: ${({ theme }) => theme.textActive};
-      }
-    }
   }
 `;
 

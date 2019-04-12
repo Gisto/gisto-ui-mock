@@ -1,9 +1,8 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styled, { withTheme } from 'styled-components/macro';
+import { MoreIcon } from 'components/icons/MoreIcon';
 
 const Content = ({ theme }) => {
-  const reference = useRef(false);
-
   return (
     <ContentWrapper>
       <Header>
@@ -11,90 +10,81 @@ const Content = ({ theme }) => {
           This is the title of my first gist
           <div>#tag, #tag2, #javascript</div>
         </Title>
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="10" cy="3" r="2" />
-          <circle cx="10" cy="10" r="2" />
-          <circle cx="10" cy="17" r="2" />
-        </svg>
+        <MoreIcon size={20} />
       </Header>
       <File>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader ref={reference}>content5</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
-        <FileHeader>content</FileHeader>
-        <FileContent>content</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js5</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
+        <FileHeader>file.js</FileHeader>
+        <FileContent>{'console.log();'}</FileContent>
       </File>
       {/*<Color style={{ background: theme.b100 }}>base</Color>*/}
       {/*<Color style={{ background: theme.b200 }}>alt</Color>*/}
@@ -126,12 +116,6 @@ const Header = styled.div`
   color: ${({ theme }) => theme.textLight};
   border-left: 1px solid ${({ theme }) => theme.b300};
   box-shadow: 0 0 10px #000;
-
-  svg {
-    circle {
-      fill: ${({ theme }) => theme.textLight};
-    }
-  }
 `;
 
 const Title = styled.div`
@@ -144,7 +128,6 @@ const Title = styled.div`
 `;
 
 const File = styled.div`
-  //margin: 20px;
   padding: 20px;
   flex-direction: column;
   height: calc(100vh - 70px - 40px);
@@ -156,15 +139,14 @@ const FileHeader = styled.div``;
 
 const FileContent = styled.div`
   margin: 20px 0;
-  background: #fff;
 `;
 
-const Color = styled.div`
-  width: 30px;
-  height: 30px;
-  border: 1px solid #000;
-  margin: 10px;
-  text-indent: 40px;
-`;
+// const Color = styled.div`
+//   width: 30px;
+//   height: 30px;
+//   border: 1px solid #000;
+//   margin: 10px;
+//   text-indent: 40px;
+// `;
 
 export default withTheme(Content);

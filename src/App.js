@@ -3,14 +3,18 @@ import styled, {
   createGlobalStyle,
   ThemeProvider,
 } from 'styled-components/macro';
-import { tint, lighten } from 'polished';
+import { lighten, tint } from 'polished';
 
 import Sidebar from 'components/sidebar/Sidebar';
 import List from 'components/list/List';
 import Content from 'components/content/Content';
 
 const base = '#22211F';
-// const base = 'tomato';
+// const base = darken(0.10, 'navy');
+
+const mode = 'lite';
+// const mode = 'dark';
+
 const theme = {
   lite: {
     b100: base,
@@ -28,6 +32,7 @@ const theme = {
   dark: {
     b100: base,
     b200: tint(0.1, base),
+    b250: tint(0.17, base),
     b300: tint(0.2, base),
     b400: tint(0.25, base),
     b500: tint(0.3, base),
@@ -42,7 +47,7 @@ const theme = {
 class App extends Component {
   render() {
     return (
-      <ThemeProvider theme={theme.lite}>
+      <ThemeProvider theme={theme[mode]}>
         <Gisto>
           <GlobalStyle />
           <Sidebar />
