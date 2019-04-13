@@ -1,6 +1,8 @@
 import React from 'react';
 import styled, { withTheme } from 'styled-components/macro';
 import { MoreIcon } from 'components/icons/MoreIcon';
+import { StarIcon } from 'components/icons/StarIcon';
+import { UnlockIcon } from 'components/icons/UnlockIcon';
 
 const Content = ({ theme }) => {
   return (
@@ -10,6 +12,14 @@ const Content = ({ theme }) => {
           This is the title of my first gist
           <div>#tag, #tag2, #javascript</div>
         </Title>
+        <StarIcon size={20} />
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        <UnlockIcon size={20} />
+        &nbsp;
+        &nbsp;
+        &nbsp;
         <MoreIcon size={20} />
       </Header>
       <File>

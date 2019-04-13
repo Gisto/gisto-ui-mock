@@ -3,14 +3,14 @@ import styled, {
   createGlobalStyle,
   ThemeProvider,
 } from 'styled-components/macro';
-import { lighten, tint } from 'polished';
+import { lighten, tint, darken } from 'polished';
 
 import Sidebar from 'components/sidebar/Sidebar';
 import List from 'components/list/List';
 import Content from 'components/content/Content';
 
 const base = '#22211F';
-// const base = darken(0.10, 'navy');
+// const base = darken(0.1, '#5a255b');
 
 const mode = 'lite';
 // const mode = 'dark';
@@ -63,6 +63,24 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 100;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #fff;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: ${theme[mode].b100};
+  }
+  
+  a:hover,
+  span:hover {
+    transition: all .3s ease-in-out;
   }
 `;
 

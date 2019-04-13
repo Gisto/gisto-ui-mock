@@ -1,51 +1,75 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React, { Component } from 'react';
+import styled, { withTheme } from 'styled-components/macro';
 
 import ChevronIcon from 'components/icons/ChevronIcon';
 import LookingGlassIcon from 'components/icons/LookingGlassIcon';
 import UnlockIcon from 'components/icons/UnlockIcon';
 import StarIcon from 'components/icons/StarIcon';
 
-export const List = () => (
-  <ListWrapper>
-    <Search>
-      <LookingGlassIcon size={20} />
-      <input type="search" placeholder="Search 125 snippets" />
-    </Search>
-    <Sort>
-      <div>
-        Order field:{' '}
-        <SortBy>
-          description <ChevronIcon size={10} />
-        </SortBy>
-      </div>
-      <div>
-        direction:{' '}
-        <SortBy>
-          desc <ChevronIcon size={10} />
-        </SortBy>
-      </div>
-    </Sort>
-    <ItemsList>
-      {[...Array(100)].map((item, index) => (
-        <Item className={index === 3 && 'active'}>
-          <Icon>
-            <UnlockIcon size={20} />
-          </Icon>
-          <Icon>
-            <StarIcon size={20} />
-          </Icon>
-          <Text>
-            <Description>
-              Item #{index + 1} and it is pretty log one too. Two lines long
-            </Description>
-            <Tags>#javascript, #html, #scss</Tags>
-          </Text>
-        </Item>
-      ))}
-    </ItemsList>
-  </ListWrapper>
-);
+export class List extends Component {
+  state = {
+    placeholder: 'Search 120 snippets'
+  };
+
+  changePlaceholder = (focus) => this.setState({
+    placeholder: focus ? 'free text, #tag or language' : 'Search 120 snippets'
+  });
+
+  render() {
+    const { theme } = this.props;
+
+    return (
+      <ListWrapper>
+        <Search>
+          <LookingGlassIcon size={20} />
+          <input type="search" placeholder={this.state.placeholder} onFocus={() => this.changePlaceholder(true)} onBlur={() => this.changePlaceholder(false)} />
+        </Search>
+        <Sort>
+          <div>
+            Order field:{' '}
+            <SortBy>
+              description <ChevronIcon size={10} />
+            </SortBy>
+          </div>
+          <div>
+            direction:{' '}
+            <SortBy>
+              desc <ChevronIcon size={10} />
+            </SortBy>
+          </div>
+        </Sort>
+        <ItemsList>
+          {[...Array(100)].map((item, index) => (
+            <Item key={`item-${index}`} className={index === 3 && 'active'}>
+              <Text>
+                <Tags>
+                  <UnlockIcon
+                    size={15}
+                    color={index === 3 ? theme.textActive : theme.textLight}
+                  />
+                  &nbsp;&nbsp;
+                  <StarIcon
+                    size={15}
+                    color={index === 3 ? theme.textActive : theme.textLight}
+                  />
+                  &nbsp;&nbsp;<span>javascript</span>&nbsp;&nbsp;
+                  <span>html</span>&nbsp;&nbsp;<span>scss</span>&nbsp;&nbsp;
+                  <span>+1</span>
+                </Tags>
+                <Description>
+                  {index === 1
+                    ? (<React.Fragment>Item #{index + 1} and it is pretty long one too. Two lines long and it is pretty long one too. Two lines long <Date>23/11/1980 10:30pm</Date></React.Fragment>)
+                    : (<React.Fragment>Item #{index + 1} and it is pretty long one too. Two lines long <Date>23/11/1980 10:30pm</Date></React.Fragment>)}
+
+                </Description>
+              </Text>
+            </Item>
+          ))}
+        </ItemsList>
+      </ListWrapper>
+    );
+  }
+}
 
 List.propTypes = {};
 
@@ -75,14 +99,22 @@ const Search = styled.div`
     font-size: 16px;
     flex: 1;
     margin: 0 0 0 20px;
-    color: ${({ theme }) => theme.b500};
+    color: ${({ theme }) => theme.textLight};
     font-weight: 300;
     padding: 3px 10px;
     border-radius: 3px;
 
+    ::placeholder {
+      color: ${({ theme }) => theme.b300};
+    }
+
     :focus {
       background: ${({ theme }) => theme.b300};
       outline: none;
+
+      ::placeholder {
+        color: ${({ theme }) => theme.b100};
+      }
     }
   }
 `;
@@ -114,14 +146,26 @@ const ItemsList = styled.div`
   overflow: auto;
 `;
 
+const Date = styled.span`
+    display: none;
+    opacity: 0.3;
+    font-size: smaller;
+    text-transform: uppercase;
+`;
+
 const Item = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 20px;
+  border-bottom: 1px solid #575550;
 
   &:hover {
     background: ${({ theme }) => theme.b100};
+    
+    ${Date} {
+      display: inline;
+    }
   }
 
   &.active {
@@ -132,20 +176,28 @@ const Item = styled.div`
   }
 `;
 
-const Icon = styled.div`
-  margin-right: 20px;
-`;
-
 const Text = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Description = styled.div``;
+const Description = styled.div`
+    line-height: 26px;
+`;
 
 const Tags = styled.div`
   font-size: smaller;
-  opacity: 0.5;
+  margin-bottom: 10px;
+  display: flex;
+
+  span {
+    opacity: 0.3;
+    border: 1px solid;
+    font-size: smaller;
+    padding: 3px 3px 1px 3px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
 `;
 
-export default List;
+export default withTheme(List);
