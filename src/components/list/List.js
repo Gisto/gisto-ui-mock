@@ -8,12 +8,15 @@ import StarIcon from 'components/icons/StarIcon';
 
 export class List extends Component {
   state = {
-    placeholder: 'Search 120 snippets'
+    placeholder: 'Search 120 snippets',
   };
 
-  changePlaceholder = (focus) => this.setState({
-    placeholder: focus ? 'free text, #tag or language' : 'Search 120 snippets'
-  });
+  changePlaceholder = focus =>
+    this.setState({
+      placeholder: focus
+        ? 'free text, #tag or language'
+        : 'Search 120 snippets',
+    });
 
   render() {
     const { theme } = this.props;
@@ -22,7 +25,12 @@ export class List extends Component {
       <ListWrapper>
         <Search>
           <LookingGlassIcon size={20} />
-          <input type="search" placeholder={this.state.placeholder} onFocus={() => this.changePlaceholder(true)} onBlur={() => this.changePlaceholder(false)} />
+          <input
+            type="search"
+            placeholder={this.state.placeholder}
+            onFocus={() => this.changePlaceholder(true)}
+            onBlur={() => this.changePlaceholder(false)}
+          />
         </Search>
         <Sort>
           <div>
@@ -57,10 +65,18 @@ export class List extends Component {
                   <span>+1</span>
                 </Tags>
                 <Description>
-                  {index === 1
-                    ? (<React.Fragment>Item #{index + 1} and it is pretty long one too. Two lines long and it is pretty long one too. Two lines long <Date>23/11/1980 10:30pm</Date></React.Fragment>)
-                    : (<React.Fragment>Item #{index + 1} and it is pretty long one too. Two lines long <Date>23/11/1980 10:30pm</Date></React.Fragment>)}
-
+                  {index === 1 ? (
+                    <React.Fragment>
+                      Item #{index + 1} and it is pretty long one too. Two lines
+                      long and it is pretty long one too. Two lines long{' '}
+                      <Date>23/11/1980 10:30pm</Date>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      Item #{index + 1} and it is pretty long one too. Two lines
+                      long <Date>23/11/1980 10:30pm</Date>
+                    </React.Fragment>
+                  )}
                 </Description>
               </Text>
             </Item>
@@ -147,10 +163,11 @@ const ItemsList = styled.div`
 `;
 
 const Date = styled.span`
-    display: none;
-    opacity: 0.3;
-    font-size: smaller;
-    text-transform: uppercase;
+  display: none;
+  opacity: 0.3;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-left: 5px;
 `;
 
 const Item = styled.div`
@@ -158,11 +175,12 @@ const Item = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #575550;
-
+  border-bottom: 1px solid ${({ theme }) => theme.b300};
+  cursor: pointer;
+  
   &:hover {
     background: ${({ theme }) => theme.b100};
-    
+
     ${Date} {
       display: inline;
     }
@@ -182,7 +200,7 @@ const Text = styled.div`
 `;
 
 const Description = styled.div`
-    line-height: 26px;
+  line-height: 26px;
 `;
 
 const Tags = styled.div`
