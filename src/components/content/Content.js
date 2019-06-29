@@ -13,13 +13,9 @@ const Content = ({ theme }) => {
           <div>#tag, #tag2, #javascript</div>
         </Title>
         <StarIcon size={20} />
-        &nbsp;
-        &nbsp;
-        &nbsp;
+        &nbsp; &nbsp; &nbsp;
         <UnlockIcon size={20} />
-        &nbsp;
-        &nbsp;
-        &nbsp;
+        &nbsp; &nbsp; &nbsp;
         <MoreIcon size={20} />
       </Header>
       <File>
@@ -27,6 +23,13 @@ const Content = ({ theme }) => {
         <FileContent>{'console.log();'}</FileContent>
         <FileHeader>file.js</FileHeader>
         <FileContent>{'console.log();'}</FileContent>
+        <Color style={{ background: theme.b100 }}>base</Color>
+        <Color style={{ background: theme.b200 }}>alt</Color>
+        <Color style={{ background: theme.b300 }}>active</Color>
+        <Color style={{ background: theme.b400 }}>light</Color>
+        <Color style={{ background: theme.b500 }}>extraLight</Color>
+        <Color style={{ background: theme.textLight }}>textLight</Color>
+        <Color style={{ background: theme.textDark }}>textDark</Color>
         <FileHeader>file.js</FileHeader>
         <FileContent>{'console.log();'}</FileContent>
         <FileHeader>file.js</FileHeader>
@@ -96,13 +99,6 @@ const Content = ({ theme }) => {
         <FileHeader>file.js</FileHeader>
         <FileContent>{'console.log();'}</FileContent>
       </File>
-      {/*<Color style={{ background: theme.b100 }}>base</Color>*/}
-      {/*<Color style={{ background: theme.b200 }}>alt</Color>*/}
-      {/*<Color style={{ background: theme.b300 }}>active</Color>*/}
-      {/*<Color style={{ background: theme.b400 }}>light</Color>*/}
-      {/*<Color style={{ background: theme.b500 }}>extraLight</Color>*/}
-      {/*<Color style={{ background: theme.textLight }}>textLight</Color>*/}
-      {/*<Color style={{ background: theme.textDark }}>textDark</Color>*/}
     </ContentWrapper>
   );
 };
@@ -151,12 +147,12 @@ const FileContent = styled.div`
   margin: 20px 0;
 `;
 
-// const Color = styled.div`
-//   width: 30px;
-//   height: 30px;
-//   border: 1px solid #000;
-//   margin: 10px;
-//   text-indent: 40px;
-// `;
+const Color = styled.div`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #000;
+  margin: 10px;
+  text-indent: 40px;
+`;
 
 export default withTheme(Content);

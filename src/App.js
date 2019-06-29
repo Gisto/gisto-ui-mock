@@ -10,7 +10,7 @@ import List from 'components/list/List';
 import Content from 'components/content/Content';
 
 const base = '#22211F';
-// const base = darken(0.1, '#5a255b');
+// const base = darken(0.1, '#25445b');
 
 const mode = 'lite';
 // const mode = 'dark';

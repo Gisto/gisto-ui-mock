@@ -30,8 +30,8 @@
     "polished": "^3.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "2.1.8",
-    "react-window": "^1.7.1",
+    "react-scripts": "3.0.0",
+    "react-window": "^1.8.1",
     "styled-components": "^4.2.0"
   },
   "scripts": {
@@ -54,12 +54,12 @@
     "electron-builder": "^20.39.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "microbundle": "^0.11.0",
-    "prettier": "^1.16.4",
+    "prettier": "^1.17.0",
     "wait-on": "^3.2.0"
   },
   "build": {
