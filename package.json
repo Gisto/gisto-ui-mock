@@ -38,12 +38,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "concurrently": "^4.1.0",
     "eslint-config-airbnb": "^17.1.0",
