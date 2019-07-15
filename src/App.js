@@ -1,21 +1,18 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled, {
   createGlobalStyle,
   ThemeProvider,
 } from 'styled-components/macro';
-import { lighten, tint, darken } from 'polished';
+import { darken, lighten, tint } from 'polished';
 
 import Sidebar from 'components/sidebar/Sidebar';
 import List from 'components/list/List';
 import Content from 'components/content/Content';
 
-const base = '#22211F';
-// const base = darken(0.1, '#25445b');
+// const baseColor = '#22211F';
+const baseColor = darken(0.1, '#25445b');
 
-const mode = 'lite';
-// const mode = 'dark';
-
-const theme = {
+const theme = (base = baseColor) => ({
   lite: {
     b100: base,
     b200: lighten(0.1, base),
@@ -42,22 +39,26 @@ const theme = {
     textDark: '#333',
     background: base,
   },
-};
+});
 
-class App extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme[mode]}>
-        <Gisto>
-          <GlobalStyle />
-          <Sidebar />
-          <List />
-          <Content />
-        </Gisto>
-      </ThemeProvider>
-    );
-  }
-}
+const App = () => {
+  const [currentTheme, setCurrentTheme] = useState('lite');
+  const [currentThemeColor, setCurrentThemeColor] = useState('#22211F');
+
+  return (
+    <ThemeProvider theme={theme(currentThemeColor)[currentTheme]}>
+      <Gisto>
+        <GlobalStyle theme={currentTheme} color={currentThemeColor} />
+        <Sidebar />
+        <List />
+        <Content
+          onThemeChange={setCurrentTheme}
+          setCurrentThemeColor={setCurrentThemeColor}
+        />
+      </Gisto>
+    </ThemeProvider>
+  );
+};
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -75,7 +76,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   ::-webkit-scrollbar-thumb {
-    background: ${theme[mode].b100};
+    background: ${props => theme(props.color)[props.theme].b100};
   }
   
   a:hover,

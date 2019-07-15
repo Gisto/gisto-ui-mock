@@ -4,7 +4,7 @@ import { MoreIcon } from 'components/icons/MoreIcon';
 import { StarIcon } from 'components/icons/StarIcon';
 import { UnlockIcon } from 'components/icons/UnlockIcon';
 
-const Content = ({ theme }) => {
+const Content = ({ theme, onThemeChange, setCurrentThemeColor }) => {
   return (
     <ContentWrapper>
       <Header>
@@ -19,6 +19,12 @@ const Content = ({ theme }) => {
         <MoreIcon size={20} />
       </Header>
       <File>
+        Theme: <button onClick={() => onThemeChange('dark')}>Dark</button>
+        <button onClick={() => onThemeChange('lite')}>Lite</button>
+        <input
+          type="color"
+          onChange={event => setCurrentThemeColor(event.target.value)}
+        />
         <FileHeader>file.js</FileHeader>
         <FileContent>{'console.log();'}</FileContent>
         <FileHeader>file.js</FileHeader>
@@ -109,6 +115,7 @@ const ContentWrapper = styled.div`
   flex: 1;
   background: ${({ theme }) => theme.background};
   z-index: 1;
+  color: ${({ theme }) => theme.textActive};
 `;
 
 const Header = styled.div`
