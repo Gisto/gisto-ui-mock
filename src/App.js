@@ -5,28 +5,33 @@ import styled, {
 } from 'styled-components/macro';
 import { darken, lighten, tint } from 'polished';
 
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+
 import Sidebar from 'components/sidebar/Sidebar';
 import List from 'components/list/List';
 import Content from 'components/content/Content';
+import Settings from 'components/content/Settings';
 
-// const baseColor = '#22211F';
-const baseColor = darken(0.1, '#25445b');
+const baseColor = darken(0.1, '#22211F');
 
-const theme = (base = baseColor) => ({
-  lite: {
-    b100: base,
-    b200: lighten(0.1, base),
-    b250: lighten(0.17, base),
-    b300: lighten(0.2, base),
-    b400: lighten(0.9, base),
-    b500: lighten(1, base),
-    border: tint(0.1, base),
-    textLight: '#fff',
-    textActive: '#333',
-    textDark: '#555',
-    background: lighten(0.9, base),
-  },
-  dark: {
+const theme = (base = baseColor) => (theme = 'lite') => {
+  if (theme === 'lite') {
+    return {
+      b100: base,
+      b200: lighten(0.1, base),
+      b250: lighten(0.17, base),
+      b300: lighten(0.2, base),
+      b400: lighten(0.9, base),
+      b500: lighten(1, base),
+      border: tint(0.1, base),
+      textLight: '#fff',
+      textActive: '#333',
+      textDark: '#555',
+      background: lighten(0.9, base),
+    };
+  }
+
+  return {
     b100: base,
     b200: tint(0.1, base),
     b250: tint(0.17, base),
@@ -38,25 +43,46 @@ const theme = (base = baseColor) => ({
     textActive: '#fff',
     textDark: '#333',
     background: base,
-  },
-});
+  };
+};
 
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('lite');
   const [currentThemeColor, setCurrentThemeColor] = useState('#22211F');
 
   return (
-    <ThemeProvider theme={theme(currentThemeColor)[currentTheme]}>
-      <Gisto>
-        <GlobalStyle theme={currentTheme} color={currentThemeColor} />
-        <Sidebar />
-        <List />
-        <Content
-          onThemeChange={setCurrentTheme}
-          setCurrentThemeColor={setCurrentThemeColor}
-        />
-      </Gisto>
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={theme(currentThemeColor)(currentTheme)}>
+        <Gisto>
+          <GlobalStyle theme={currentTheme} color={currentThemeColor} />
+          <Sidebar />
+          <List />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Content
+                  {...props}
+                  onThemeChange={setCurrentTheme}
+                  setCurrentThemeColor={setCurrentThemeColor}
+                />
+              )}
+            />
+            <Route
+              path="/settings"
+              render={props => (
+                <Settings
+                  {...props}
+                  onThemeChange={setCurrentTheme}
+                  setCurrentThemeColor={setCurrentThemeColor}
+                />
+              )}
+            />
+          </Switch>
+        </Gisto>
+      </ThemeProvider>
+    </Router>
   );
 };
 
@@ -72,11 +98,12 @@ const GlobalStyle = createGlobalStyle`
   }
   
   ::-webkit-scrollbar-track {
-    background: #fff;
+    background: ${props => theme(props.color)(props.theme).background};
   }
   
   ::-webkit-scrollbar-thumb {
-    background: ${props => theme(props.color)[props.theme].b100};
+    background: ${props =>
+      theme(props.color)(props.theme === 'lite' ? 'dark' : 'lite').background};
   }
   
   a:hover,

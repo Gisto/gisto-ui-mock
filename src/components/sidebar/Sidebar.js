@@ -5,24 +5,31 @@ import PlusIcon from 'components/icons/PlusIcon';
 import InfoIcon from 'components/icons/InfoIcon';
 import CogIcon from 'components/icons/CogIcon';
 import LogOutIcon from 'components/icons/LogOutIcon';
+import { HashRouter as Router, Link } from 'react-router-dom';
 
 const Sidebar = () => (
   <Bar>
-    <Logo>{`{ G }`}</Logo>
-    <Button>
-      <PlusIcon size={20} />
-    </Button>
+    <Router>
+      <Link to="/">
+        <Logo>{`{ G }`}</Logo>
+      </Link>
+      <Button>
+        <PlusIcon size={20} />
+      </Button>
 
-    <Button>
-      <InfoIcon size={20} />
-    </Button>
-    <Button>
-      <CogIcon size={20} />
-    </Button>
+      <Button>
+        <InfoIcon size={20} />
+      </Button>
+      <Link to="/settings">
+        <Button>
+          <CogIcon size={20} />
+        </Button>
+      </Link>
 
-    <LogOutButton>
-      <LogOutIcon size={20} />
-    </LogOutButton>
+      <LogOutButton>
+        <LogOutIcon size={20} />
+      </LogOutButton>
+    </Router>
   </Bar>
 );
 

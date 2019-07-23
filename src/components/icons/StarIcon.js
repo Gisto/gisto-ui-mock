@@ -1,7 +1,8 @@
 import React from 'react';
 
-export const StarIcon = ({ size = 12, color = '#fff' }) => (
+export const StarIcon = ({ size = 12, color = '#fff', className }) => (
   <svg
+    className={className}
     width={size}
     height={size}
     viewBox="0 0 20 20"

@@ -6,10 +6,47 @@ import LookingGlassIcon from 'components/icons/LookingGlassIcon';
 import UnlockIcon from 'components/icons/UnlockIcon';
 import StarIcon from 'components/icons/StarIcon';
 
+const removeTags = title => {
+  if (!title) {
+    return null;
+  }
+
+  const tags = title.match(/#(\d*[A-Za-z_0-9]+\d*)/g);
+  return tags ? title.trim().split(tags[0])[0] : title;
+};
+
+const getTags = title => {
+  if (!title) {
+    return null;
+  }
+
+  const tags = title.match(/#(\d*[A-Za-z_0-9]+\d*)/g);
+
+  return tags || [];
+};
+
 export class List extends Component {
   state = {
     placeholder: 'Search 120 snippets',
+    list: [],
   };
+
+  componentDidMount() {
+    fetch(`https://api.github.com/users/sanusart/gists?per_page=100`, {
+      method: 'GET',
+      headers: new Headers({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'MY-UA-STRING',
+      }),
+    })
+      .then(res => res.json())
+      .then(res =>
+        this.setState({
+          list: res,
+        })
+      );
+  }
 
   changePlaceholder = focus =>
     this.setState({
@@ -47,36 +84,37 @@ export class List extends Component {
           </div>
         </Sort>
         <ItemsList>
-          {[...Array(100)].map((item, index) => (
-            <Item key={`item-${index}`} className={index === 3 && 'active'}>
+          {(this.state.list || []).map((item, index) => (
+            <Item key={`item-${index}`} className={index === 4 && 'active'}>
               <Text>
                 <Tags>
-                  <UnlockIcon
+                  <StyledUnlockIcon
                     size={15}
-                    color={index === 3 ? theme.textActive : theme.textLight}
+                    color={index === 4 ? theme.textActive : theme.textLight}
                   />
                   &nbsp;&nbsp;
-                  <StarIcon
+                  <StyledStarIcon
                     size={15}
-                    color={index === 3 ? theme.textActive : theme.textLight}
+                    color={index === 4 ? theme.textActive : theme.textLight}
                   />
-                  &nbsp;&nbsp;<span>javascript</span>&nbsp;&nbsp;
-                  <span>html</span>&nbsp;&nbsp;<span>scss</span>&nbsp;&nbsp;
-                  <span>+1</span>
+                  {getTags(item.description || 'undefined').length > 0 &&
+                    getTags(item.description || 'undefined').map(
+                      (tag, index) => index <= 2 && <span>{tag}</span>
+                    )}
+                  {getTags(item.description || 'undefined').length > 0 &&
+                    getTags(item.description || 'undefined').length > 3 &&
+                    index > 2 && (
+                      <span>
+                        {'+'}
+                        {getTags(item.description || 'undefined').length - 3}
+                      </span>
+                    )}
                 </Tags>
                 <Description>
-                  {index === 1 ? (
-                    <React.Fragment>
-                      Item #{index + 1} and it is pretty long one too. Two lines
-                      long and it is pretty long one too. Two lines long{' '}
-                      <Date>23/11/1980 10:30pm</Date>
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      Item #{index + 1} and it is pretty long one too. Two lines
-                      long <Date>23/11/1980 10:30pm</Date>
-                    </React.Fragment>
-                  )}
+                  <React.Fragment>
+                    {removeTags(item.description) || 'undefined'}
+                    <Date>23/11/1980 10:30pm</Date>
+                  </React.Fragment>
                 </Description>
               </Text>
             </Item>
@@ -163,7 +201,7 @@ const ItemsList = styled.div`
 `;
 
 const Date = styled.span`
-  display: none;
+  visibility: hidden;
   opacity: 0.3;
   font-size: 14px;
   text-transform: uppercase;
@@ -177,11 +215,13 @@ const Item = styled.div`
   padding: 20px;
   border-bottom: 1px solid ${({ theme }) => theme.b300};
   cursor: pointer;
-  
+  transition: all 0.5s ease-in-out;
+
   &:hover {
     background: ${({ theme }) => theme.b100};
 
     ${Date} {
+      visibility: visible;
       display: inline;
     }
   }
@@ -215,6 +255,26 @@ const Tags = styled.div`
     padding: 3px 3px 1px 3px;
     border-radius: 3px;
     text-transform: uppercase;
+    margin: 0 0 0 5px;
+    &:first-of-type {
+      margin: 0 0 0 10px;
+    }
+
+    :hover {
+      opacity: 0.5;
+    }
+  }
+`;
+
+const StyledUnlockIcon = styled(UnlockIcon)`
+  opacity: 0.5;
+`;
+
+const StyledStarIcon = styled(StarIcon)`
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
   }
 `;
 

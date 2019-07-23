@@ -4,7 +4,7 @@ import { MoreIcon } from 'components/icons/MoreIcon';
 import { StarIcon } from 'components/icons/StarIcon';
 import { UnlockIcon } from 'components/icons/UnlockIcon';
 
-const Content = ({ theme, onThemeChange, setCurrentThemeColor }) => {
+const Content = ({ theme }) => {
   return (
     <ContentWrapper>
       <Header>
@@ -19,23 +19,10 @@ const Content = ({ theme, onThemeChange, setCurrentThemeColor }) => {
         <MoreIcon size={20} />
       </Header>
       <File>
-        Theme: <button onClick={() => onThemeChange('dark')}>Dark</button>
-        <button onClick={() => onThemeChange('lite')}>Lite</button>
-        <input
-          type="color"
-          onChange={event => setCurrentThemeColor(event.target.value)}
-        />
         <FileHeader>file.js</FileHeader>
         <FileContent>{'console.log();'}</FileContent>
         <FileHeader>file.js</FileHeader>
         <FileContent>{'console.log();'}</FileContent>
-        <Color style={{ background: theme.b100 }}>base</Color>
-        <Color style={{ background: theme.b200 }}>alt</Color>
-        <Color style={{ background: theme.b300 }}>active</Color>
-        <Color style={{ background: theme.b400 }}>light</Color>
-        <Color style={{ background: theme.b500 }}>extraLight</Color>
-        <Color style={{ background: theme.textLight }}>textLight</Color>
-        <Color style={{ background: theme.textDark }}>textDark</Color>
         <FileHeader>file.js</FileHeader>
         <FileContent>{'console.log();'}</FileContent>
         <FileHeader>file.js</FileHeader>
@@ -152,14 +139,6 @@ const FileHeader = styled.div``;
 
 const FileContent = styled.div`
   margin: 20px 0;
-`;
-
-const Color = styled.div`
-  width: 30px;
-  height: 30px;
-  border: 1px solid #000;
-  margin: 10px;
-  text-indent: 40px;
 `;
 
 export default withTheme(Content);
