@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import styled, { withTheme } from 'styled-components/macro';
 
-const Info = ({ theme, setCurrentRoute }) => {
-  useEffect(() => setCurrentRoute('info'), [setCurrentRoute]);
+const Dashboard = ({ theme, setCurrentRoute }) => {
+  useEffect(() => setCurrentRoute('dashboard'), [setCurrentRoute]);
 
   return (
     <ContentWrapper theme={theme}>
-      <h1>Info:</h1>
-      <p>This is info page</p>
+      <h1>Dashboard:</h1>
+      <p>This is Dashboard page</p>
     </ContentWrapper>
   );
 };
 
-Info.propTypes = {};
+Dashboard.propTypes = {};
 
 const ContentWrapper = styled.div`
   flex: 1;
@@ -27,4 +27,4 @@ const ContentWrapper = styled.div`
   }
 `;
 
-export default withTheme(Info);
+export default withTheme(Dashboard);

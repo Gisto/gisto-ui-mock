@@ -1,16 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { withTheme } from 'styled-components/macro';
+import { map } from 'lodash/fp';
+
 import { MoreIcon } from 'components/icons/MoreIcon';
 import { StarIcon } from 'components/icons/StarIcon';
 import { UnlockIcon } from 'components/icons/UnlockIcon';
 
-const Content = ({ theme, setCurrentRoute }) => {
-  useEffect(() => setCurrentRoute('home'), [setCurrentRoute]);
+const Content = ({ theme, setCurrentRoute, match }) => {
+  const [gist, setGist] = useState({});
+  useEffect(() => setCurrentRoute('gist'), [setCurrentRoute]);
+  useEffect(() => {
+    fetchGist(match.params.id);
+  }, [match.params.id]);
+
+  const fetchGist = async id => {
+    const response = await fetch(`https://api.github.com/gists/${id}`, {
+      method: 'GET',
+      headers: new Headers({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'MY-UA-STRING',
+      }),
+    });
+    const data = await response.json();
+
+    setGist(data);
+  };
+
   return (
     <ContentWrapper theme={theme}>
       <Header>
         <Title>
-          This is the title of my first gist
+          {(gist && gist.description) || 'unknown'}
           <div>#tag, #tag2, #javascript</div>
         </Title>
         <StarIcon size={20} />
@@ -19,80 +40,18 @@ const Content = ({ theme, setCurrentRoute }) => {
         &nbsp; &nbsp; &nbsp;
         <MoreIcon size={20} />
       </Header>
-      <File>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js5</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-        <FileHeader>file.js</FileHeader>
-        <FileContent>{'console.log();'}</FileContent>
-      </File>
+
+      {map(
+        file => (
+          <File>
+            <FileHeader>{file.filename}</FileHeader>
+            <FileContent>
+              <div>{file.content}</div>
+            </FileContent>
+          </File>
+        ),
+        gist.files
+      )}
     </ContentWrapper>
   );
 };
@@ -136,10 +95,20 @@ const File = styled.div`
   z-index: 2;
 `;
 
-const FileHeader = styled.div``;
+const FileHeader = styled.div`
+  margin: 0;
+  background: ${({ theme }) => theme.b250};
+  color: ${({ theme }) => theme.textLight};
+  overflow: auto;
+  padding: 20px;
+`;
 
 const FileContent = styled.div`
-  margin: 20px 0;
+  margin: 0;
+  background: ${({ theme }) => theme.b200};
+  color: ${({ theme }) => theme.textLight};
+  overflow: auto;
+  padding: 20px;
 `;
 
 export default withTheme(Content);

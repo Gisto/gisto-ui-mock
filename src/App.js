@@ -13,6 +13,7 @@ import Content from 'components/content/Content';
 import Settings from 'components/content/Settings';
 import Info from 'components/content/Info';
 import New from 'components/content/New';
+import Dashboard from 'components/content/Dashboard';
 
 const baseColor = darken(0.1, '#22211F');
 
@@ -68,6 +69,17 @@ const App = () => {
             <Route
               exact
               path="/"
+              render={props => (
+                <Dashboard
+                  {...props}
+                  onThemeChange={setCurrentTheme}
+                  setCurrentRoute={setCurrentRoute}
+                  setCurrentThemeColor={setCurrentThemeColor}
+                />
+              )}
+            />
+            <Route
+              path="/gist/:id"
               render={props => (
                 <Content
                   {...props}

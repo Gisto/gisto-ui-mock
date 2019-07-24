@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { withTheme } from 'styled-components/macro';
 import { isEmpty } from 'lodash/fp';
+import { NavLink } from 'react-router-dom';
 
 import ChevronIcon from 'components/icons/ChevronIcon';
 import LookingGlassIcon from 'components/icons/LookingGlassIcon';
@@ -57,7 +58,7 @@ export class List extends Component {
     });
 
   render() {
-    const { theme, show } = this.props;
+    const { show } = this.props;
 
     return (
       <ListWrapper show={show}>
@@ -89,18 +90,16 @@ export class List extends Component {
         ) : (
           <ItemsList>
             {(this.state.list || []).map((item, index) => (
-              <Item key={`item-${index}`} className={index === 4 && 'active'}>
+              <Item
+                key={`item-${index}`}
+                to={`/gist/${item.id}`}
+                activeClassName="active"
+              >
                 <Text>
                   <Tags>
-                    <StyledUnlockIcon
-                      size={15}
-                      color={index === 4 ? theme.textActive : theme.textLight}
-                    />
+                    <StyledUnlockIcon size={15} />
                     &nbsp;&nbsp;
-                    <StyledStarIcon
-                      size={15}
-                      color={index === 4 ? theme.textActive : theme.textLight}
-                    />
+                    <StyledStarIcon size={15} />
                     {getTags(item.description || 'undefined').length > 0 &&
                       getTags(item.description || 'undefined').map(
                         (tag, index) => index <= 2 && <span>{tag}</span>
@@ -223,7 +222,19 @@ const Date = styled.span`
   margin-left: 5px;
 `;
 
-const Item = styled.div`
+const StyledUnlockIcon = styled(UnlockIcon)`
+  opacity: 0.5;
+`;
+
+const StyledStarIcon = styled(StarIcon)`
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+const Item = styled(NavLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -231,6 +242,8 @@ const Item = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.b300};
   cursor: pointer;
   transition: all 0.5s ease-in-out;
+  text-decoration: none;
+  color: ${({ theme }) => theme.textLight};
 
   &:hover {
     background: ${({ theme }) => theme.b100};
@@ -246,6 +259,19 @@ const Item = styled.div`
     z-index: 2;
     position: relative;
     color: ${({ theme }) => theme.textActive};
+
+      svg {
+        path, polygon, rect {
+          stroke: ${({ theme }) => theme.textActive};
+        }
+      }
+    }
+  }
+
+  ${UnlockIcon} {
+      path {
+        stroke: ${({ theme }) => theme.textLight};
+      }    }
   }
 `;
 
@@ -278,18 +304,6 @@ const Tags = styled.div`
     :hover {
       opacity: 0.5;
     }
-  }
-`;
-
-const StyledUnlockIcon = styled(UnlockIcon)`
-  opacity: 0.5;
-`;
-
-const StyledStarIcon = styled(StarIcon)`
-  opacity: 0.5;
-
-  &:hover {
-    opacity: 1;
   }
 `;
 

@@ -59,7 +59,7 @@ Settings.propTypes = {};
 const ContentWrapper = styled.div`
   flex: 1;
   background: ${({ theme }) => theme.background};
-  z-index: 1;
+  z-index: 2;
   color: ${({ theme }) => theme.textActive};
   padding: 0 30px;
 
