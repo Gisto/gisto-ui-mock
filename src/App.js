@@ -11,6 +11,8 @@ import Sidebar from 'components/sidebar/Sidebar';
 import List from 'components/list/List';
 import Content from 'components/content/Content';
 import Settings from 'components/content/Settings';
+import Info from 'components/content/Info';
+import New from 'components/content/New';
 
 const baseColor = darken(0.1, '#22211F');
 
@@ -49,14 +51,19 @@ const theme = (base = baseColor) => (theme = 'lite') => {
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('lite');
   const [currentThemeColor, setCurrentThemeColor] = useState('#22211F');
-
+  const [currentRoute, setCurrentRoute] = useState();
+  const hasSideBar =
+    currentRoute === 'info' ||
+    currentRoute === 'settings' ||
+    currentRoute === 'new';
   return (
     <Router>
       <ThemeProvider theme={theme(currentThemeColor)(currentTheme)}>
         <Gisto>
           <GlobalStyle theme={currentTheme} color={currentThemeColor} />
           <Sidebar />
-          <List />
+          <List show={!hasSideBar} />
+
           <Switch>
             <Route
               exact
@@ -65,6 +72,7 @@ const App = () => {
                 <Content
                   {...props}
                   onThemeChange={setCurrentTheme}
+                  setCurrentRoute={setCurrentRoute}
                   setCurrentThemeColor={setCurrentThemeColor}
                 />
               )}
@@ -74,9 +82,22 @@ const App = () => {
               render={props => (
                 <Settings
                   {...props}
+                  setCurrentRoute={setCurrentRoute}
                   onThemeChange={setCurrentTheme}
                   setCurrentThemeColor={setCurrentThemeColor}
                 />
+              )}
+            />
+            <Route
+              path="/info"
+              render={props => (
+                <Info {...props} setCurrentRoute={setCurrentRoute} />
+              )}
+            />
+            <Route
+              path="/new"
+              render={props => (
+                <New {...props} setCurrentRoute={setCurrentRoute} />
               )}
             />
           </Switch>
@@ -91,21 +112,21 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 100;
   }
-  
+
   ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: ${props => theme(props.color)(props.theme).background};
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: ${props =>
       theme(props.color)(props.theme === 'lite' ? 'dark' : 'lite').background};
   }
-  
+
   a:hover,
   span:hover {
     transition: all .3s ease-in-out;

@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { withTheme } from 'styled-components/macro';
 import { MoreIcon } from 'components/icons/MoreIcon';
 import { StarIcon } from 'components/icons/StarIcon';
 import { UnlockIcon } from 'components/icons/UnlockIcon';
 
-const Content = ({ theme }) => {
+const Content = ({ theme, setCurrentRoute }) => {
+  useEffect(() => setCurrentRoute('home'), [setCurrentRoute]);
   return (
-    <ContentWrapper>
+    <ContentWrapper theme={theme}>
       <Header>
         <Title>
           This is the title of my first gist

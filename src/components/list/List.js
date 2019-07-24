@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled, { withTheme } from 'styled-components/macro';
+import { isEmpty } from 'lodash/fp';
 
 import ChevronIcon from 'components/icons/ChevronIcon';
 import LookingGlassIcon from 'components/icons/LookingGlassIcon';
@@ -56,10 +57,10 @@ export class List extends Component {
     });
 
   render() {
-    const { theme } = this.props;
+    const { theme, show } = this.props;
 
     return (
-      <ListWrapper>
+      <ListWrapper show={show}>
         <Search>
           <LookingGlassIcon size={20} />
           <input
@@ -83,43 +84,47 @@ export class List extends Component {
             </SortBy>
           </div>
         </Sort>
-        <ItemsList>
-          {(this.state.list || []).map((item, index) => (
-            <Item key={`item-${index}`} className={index === 4 && 'active'}>
-              <Text>
-                <Tags>
-                  <StyledUnlockIcon
-                    size={15}
-                    color={index === 4 ? theme.textActive : theme.textLight}
-                  />
-                  &nbsp;&nbsp;
-                  <StyledStarIcon
-                    size={15}
-                    color={index === 4 ? theme.textActive : theme.textLight}
-                  />
-                  {getTags(item.description || 'undefined').length > 0 &&
-                    getTags(item.description || 'undefined').map(
-                      (tag, index) => index <= 2 && <span>{tag}</span>
-                    )}
-                  {getTags(item.description || 'undefined').length > 0 &&
-                    getTags(item.description || 'undefined').length > 3 &&
-                    index > 2 && (
-                      <span>
-                        {'+'}
-                        {getTags(item.description || 'undefined').length - 3}
-                      </span>
-                    )}
-                </Tags>
-                <Description>
-                  <React.Fragment>
-                    {removeTags(item.description) || 'undefined'}
-                    <Date>23/11/1980 10:30pm</Date>
-                  </React.Fragment>
-                </Description>
-              </Text>
-            </Item>
-          ))}
-        </ItemsList>
+        {isEmpty(this.state.list) ? (
+          <Loading>Loading...</Loading>
+        ) : (
+          <ItemsList>
+            {(this.state.list || []).map((item, index) => (
+              <Item key={`item-${index}`} className={index === 4 && 'active'}>
+                <Text>
+                  <Tags>
+                    <StyledUnlockIcon
+                      size={15}
+                      color={index === 4 ? theme.textActive : theme.textLight}
+                    />
+                    &nbsp;&nbsp;
+                    <StyledStarIcon
+                      size={15}
+                      color={index === 4 ? theme.textActive : theme.textLight}
+                    />
+                    {getTags(item.description || 'undefined').length > 0 &&
+                      getTags(item.description || 'undefined').map(
+                        (tag, index) => index <= 2 && <span>{tag}</span>
+                      )}
+                    {getTags(item.description || 'undefined').length > 0 &&
+                      getTags(item.description || 'undefined').length > 3 &&
+                      index > 2 && (
+                        <span>
+                          {'+'}
+                          {getTags(item.description || 'undefined').length - 3}
+                        </span>
+                      )}
+                  </Tags>
+                  <Description>
+                    <React.Fragment>
+                      {removeTags(item.description) || 'undefined'}
+                      <Date>23/11/1980 10:30pm</Date>
+                    </React.Fragment>
+                  </Description>
+                </Text>
+              </Item>
+            ))}
+          </ItemsList>
+        )}
       </ListWrapper>
     );
   }
@@ -129,7 +134,8 @@ List.propTypes = {};
 
 const ListWrapper = styled.div`
   height: 100vh;
-  width: 300px;
+  ${({ show }) => (show ? 'width: 300px;opacity: 1;' : 'width: 0;opacity: 0;')};
+  transition: all 0.1s ease-in-out;
   background: ${({ theme }) => theme.b250};
   color: #fff;
   box-shadow: 0 70px 10px #000 inset;
@@ -198,6 +204,15 @@ const SortBy = styled.span`
 const ItemsList = styled.div`
   height: calc(100vh - 70px);
   overflow: auto;
+`;
+
+const Loading = styled.div`
+  height: calc(100vh - 70px);
+  overflow: auto;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 const Date = styled.span`

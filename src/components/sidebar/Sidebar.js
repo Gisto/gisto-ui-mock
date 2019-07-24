@@ -13,18 +13,28 @@ const Sidebar = () => (
       <Link to="/">
         <Logo>{`{ G }`}</Logo>
       </Link>
-      <Button>
-        <PlusIcon size={20} />
-      </Button>
 
-      <Button>
-        <InfoIcon size={20} />
-      </Button>
+      <Link to="/new">
+        <Button>
+          <PlusIcon size={20} />
+        </Button>
+      </Link>
+
+      <Link to="/info">
+        <Button>
+          <InfoIcon size={20} />
+        </Button>
+      </Link>
+
       <Link to="/settings">
         <Button>
           <CogIcon size={20} />
         </Button>
       </Link>
+
+      <Button>
+        <Image src="https://avatars2.githubusercontent.com/u/267718?s=50&v=4" />
+      </Button>
 
       <LogOutButton>
         <LogOutIcon size={20} />
@@ -72,6 +82,12 @@ const Logo = styled(Button)`
     background: inherit;
     text-shadow: 0 0 5px #fff;
   }
+`;
+
+const Image = styled.img`
+  border-radius: 50%;
+  width: 38px;
+  border: 1px solid ${({ theme }) => theme.b250};
 `;
 
 const LogOutButton = styled(Button)``;
