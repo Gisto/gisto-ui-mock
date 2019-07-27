@@ -40,18 +40,19 @@ const Content = ({ theme, setCurrentRoute, match }) => {
         &nbsp; &nbsp; &nbsp;
         <MoreIcon size={20} />
       </Header>
-
-      {map(
-        file => (
-          <File>
-            <FileHeader>{file.filename}</FileHeader>
-            <FileContent>
-              <div>{file.content}</div>
-            </FileContent>
-          </File>
-        ),
-        gist.files
-      )}
+      <Files>
+        {map(
+          file => (
+            <File>
+              <FileHeader>{file.filename}</FileHeader>
+              <FileContent>
+                <div>{file.content}</div>
+              </FileContent>
+            </File>
+          ),
+          gist.files
+        )}
+      </Files>
     </ContentWrapper>
   );
 };
@@ -87,12 +88,22 @@ const Title = styled.div`
   }
 `;
 
+const Files = styled.div`
+  flex-direction: column;
+  height: calc(calc(100vh - 70px - -38px));
+  overflow: auto;
+  z-index: 2;
+`;
+
 const File = styled.div`
   padding: 20px;
   flex-direction: column;
-  height: calc(100vh - 70px - 40px);
   overflow: auto;
   z-index: 2;
+
+  :last-of-type {
+    margin-bottom: 40px;
+  }
 `;
 
 const FileHeader = styled.div`
@@ -109,6 +120,14 @@ const FileContent = styled.div`
   color: ${({ theme }) => theme.textLight};
   overflow: auto;
   padding: 20px;
+
+  > div {
+    white-space: pre-wrap;
+    font-family: 'fira code', monospace;
+    font-size: 13px;
+    line-height: 18px;
+    max-height: calc(100vh - 210px);
+  }
 `;
 
 export default withTheme(Content);
