@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { withTheme } from 'styled-components/macro';
 
 const Settings = ({
@@ -7,7 +7,8 @@ const Settings = ({
   setCurrentThemeColor,
   setCurrentRoute,
 }) => {
-  useEffect(() => setCurrentRoute('settings'), [setCurrentRoute]);
+  setCurrentRoute('settings');
+
   return (
     <ContentWrapper theme={theme}>
       <h1>Settings:</h1>

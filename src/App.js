@@ -3,10 +3,9 @@ import styled, {
   createGlobalStyle,
   ThemeProvider,
 } from 'styled-components/macro';
-import { darken, lighten, tint } from 'polished';
-
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
+import { useRoute } from 'hooks/useRoute';
 import Sidebar from 'components/sidebar/Sidebar';
 import List from 'components/list/List';
 import Content from 'components/content/Content';
@@ -15,48 +14,17 @@ import Info from 'components/content/Info';
 import New from 'components/content/New';
 import Dashboard from 'components/content/Dashboard';
 
-const baseColor = darken(0.1, '#22211F');
-
-const theme = (base = baseColor) => (theme = 'lite') => {
-  if (theme === 'lite') {
-    return {
-      b100: base,
-      b200: lighten(0.1, base),
-      b250: lighten(0.17, base),
-      b300: lighten(0.2, base),
-      b400: lighten(0.9, base),
-      b500: lighten(1, base),
-      border: tint(0.1, base),
-      textLight: '#fff',
-      textActive: '#333',
-      textDark: '#555',
-      background: lighten(0.9, base),
-    };
-  }
-
-  return {
-    b100: base,
-    b200: tint(0.1, base),
-    b250: tint(0.17, base),
-    b300: tint(0.2, base),
-    b400: tint(0.25, base),
-    b500: tint(0.3, base),
-    border: base,
-    textLight: '#fff',
-    textActive: '#fff',
-    textDark: '#333',
-    background: base,
-  };
-};
+import { theme } from 'utils/theme';
 
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('lite');
   const [currentThemeColor, setCurrentThemeColor] = useState('#22211F');
-  const [currentRoute, setCurrentRoute] = useState();
+  const [currentRoute, setCurrentRoute] = useRoute('dashboard');
   const hasSideBar =
     currentRoute === 'info' ||
     currentRoute === 'settings' ||
     currentRoute === 'new';
+
   return (
     <Router>
       <ThemeProvider theme={theme(currentThemeColor)(currentTheme)}>

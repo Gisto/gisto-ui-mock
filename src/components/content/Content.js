@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled, { withTheme } from 'styled-components/macro';
 import { map } from 'lodash/fp';
 
+import { getTags, removeTags } from 'utils/tags';
+
 import { MoreIcon } from 'components/icons/MoreIcon';
 import { StarIcon } from 'components/icons/StarIcon';
 import { UnlockIcon } from 'components/icons/UnlockIcon';
 
-const Content = ({ theme, setCurrentRoute, match }) => {
+const Content = ({ theme, match, setCurrentRoute }) => {
   const [gist, setGist] = useState({});
-  useEffect(() => setCurrentRoute('gist'), [setCurrentRoute]);
+  setCurrentRoute('gist');
   useEffect(() => {
     fetchGist(match.params.id);
   }, [match.params.id]);
@@ -31,8 +33,12 @@ const Content = ({ theme, setCurrentRoute, match }) => {
     <ContentWrapper theme={theme}>
       <Header>
         <Title>
-          {(gist && gist.description) || 'unknown'}
-          <div>#tag, #tag2, #javascript</div>
+          {removeTags(gist.description)}
+          <div>
+            {getTags(gist.description).map(tag => (
+              <span key={tag}>{tag}</span>
+            ))}
+          </div>
         </Title>
         <StarIcon size={20} />
         &nbsp; &nbsp; &nbsp;
@@ -43,7 +49,7 @@ const Content = ({ theme, setCurrentRoute, match }) => {
       <Files>
         {map(
           file => (
-            <File>
+            <File key={file.filename}>
               <FileHeader>{file.filename}</FileHeader>
               <FileContent>
                 <div>{file.content}</div>

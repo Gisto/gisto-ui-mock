@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { withTheme } from 'styled-components/macro';
-import { isEmpty } from 'lodash/fp';
+import { isEmpty, size } from 'lodash/fp';
 import { NavLink } from 'react-router-dom';
 
 import ChevronIcon from 'components/icons/ChevronIcon';
@@ -8,126 +8,100 @@ import LookingGlassIcon from 'components/icons/LookingGlassIcon';
 import UnlockIcon from 'components/icons/UnlockIcon';
 import StarIcon from 'components/icons/StarIcon';
 
-const removeTags = title => {
-  if (!title) {
-    return null;
-  }
+import { getTags, removeTags } from 'utils/tags';
 
-  const tags = title.match(/#(\d*[A-Za-z_0-9]+\d*)/g);
-  return tags ? title.trim().split(tags[0])[0] : title;
-};
+export const List = ({ show }) => {
+  const [list, setList] = useState(null);
+  const [placeholder, setPlaceholder] = useState(`Search snippets`);
+  useEffect(() => {
+    fetchGist();
+  });
 
-const getTags = title => {
-  if (!title) {
-    return null;
-  }
+  const fetchGist = async () => {
+    const response = await fetch(
+      `https://api.github.com/users/sanusart/gists?per_page=100`,
+      {
+        method: 'GET',
+        headers: new Headers({
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'User-Agent': 'MY-UA-STRING',
+        }),
+      }
+    );
+    const data = await response.json();
 
-  const tags = title.match(/#(\d*[A-Za-z_0-9]+\d*)/g);
-
-  return tags || [];
-};
-
-export class List extends Component {
-  state = {
-    placeholder: 'Search 120 snippets',
-    list: [],
+    setList(data);
+    setPlaceholder(`Search ${size(list)} snippets`);
   };
 
-  componentDidMount() {
-    fetch(`https://api.github.com/users/sanusart/gists?per_page=100`, {
-      method: 'GET',
-      headers: new Headers({
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'MY-UA-STRING',
-      }),
-    })
-      .then(res => res.json())
-      .then(res =>
-        this.setState({
-          list: res,
-        })
-      );
-  }
-
-  changePlaceholder = focus =>
-    this.setState({
-      placeholder: focus
-        ? 'free text, #tag or language'
-        : 'Search 120 snippets',
-    });
-
-  render() {
-    const { show } = this.props;
-
-    return (
-      <ListWrapper show={show}>
-        <Search>
-          <LookingGlassIcon size={20} />
-          <input
-            type="search"
-            placeholder={this.state.placeholder}
-            onFocus={() => this.changePlaceholder(true)}
-            onBlur={() => this.changePlaceholder(false)}
-          />
-        </Search>
-        <Sort>
-          <div>
-            Order field:{' '}
-            <SortBy>
-              description <ChevronIcon size={10} />
-            </SortBy>
-          </div>
-          <div>
-            direction:{' '}
-            <SortBy>
-              desc <ChevronIcon size={10} />
-            </SortBy>
-          </div>
-        </Sort>
-        {isEmpty(this.state.list) ? (
-          <Loading>Loading...</Loading>
-        ) : (
-          <ItemsList>
-            {(this.state.list || []).map((item, index) => (
-              <Item
-                key={`item-${index}`}
-                to={`/gist/${item.id}`}
-                activeClassName="active"
-              >
-                <Text>
-                  <Tags>
-                    <StyledUnlockIcon size={15} />
-                    &nbsp;&nbsp;
-                    <StyledStarIcon size={15} />
-                    {getTags(item.description || 'undefined').length > 0 &&
-                      getTags(item.description || 'undefined').map(
-                        (tag, index) => index <= 2 && <span>{tag}</span>
-                      )}
-                    {getTags(item.description || 'undefined').length > 0 &&
-                      getTags(item.description || 'undefined').length > 3 &&
-                      index > 2 && (
-                        <span>
-                          {'+'}
-                          {getTags(item.description || 'undefined').length - 3}
-                        </span>
-                      )}
-                  </Tags>
-                  <Description>
-                    <React.Fragment>
-                      {removeTags(item.description) || 'undefined'}
-                      <Date>23/11/1980 10:30pm</Date>
-                    </React.Fragment>
-                  </Description>
-                </Text>
-              </Item>
-            ))}
-          </ItemsList>
-        )}
-      </ListWrapper>
-    );
-  }
-}
+  return (
+    <ListWrapper show={show}>
+      <Search>
+        <LookingGlassIcon size={20} />
+        <input
+          type="search"
+          placeholder={placeholder}
+          onFocus={() => setPlaceholder('free text, #tag or language')}
+          onBlur={() => setPlaceholder(`Search ${size(list)} snippets`)}
+        />
+      </Search>
+      <Sort>
+        <div>
+          Order field:{' '}
+          <SortBy>
+            description <ChevronIcon size={10} />
+          </SortBy>
+        </div>
+        <div>
+          direction:{' '}
+          <SortBy>
+            desc <ChevronIcon size={10} />
+          </SortBy>
+        </div>
+      </Sort>
+      {isEmpty(list) ? (
+        <Loading>Loading...</Loading>
+      ) : (
+        <ItemsList>
+          {(list || []).map((item, index) => (
+            <Item
+              key={`item-${item.id}`}
+              to={`/gist/${item.id}`}
+              activeClassName="active"
+            >
+              <Text>
+                <Tags>
+                  <StyledUnlockIcon size={15} />
+                  &nbsp;&nbsp;
+                  <StyledStarIcon size={15} />
+                  {getTags(item.description || 'undefined').length > 0 &&
+                    getTags(item.description || 'undefined').map(
+                      (tag, index) => index <= 2 && <span key={tag}>{tag}</span>
+                    )}
+                  {getTags(item.description || 'undefined').length > 0 &&
+                    getTags(item.description || 'undefined').length > 3 &&
+                    index > 2 && (
+                      <span>
+                        {'+'}
+                        {getTags(item.description || 'undefined').length - 3}
+                      </span>
+                    )}
+                </Tags>
+                <Description>
+                  <React.Fragment>
+                    {removeTags(item.description) || 'undefined'}
+                    <Date>23/11/1980 10:30pm</Date>
+                  </React.Fragment>
+                </Description>
+              </Text>
+            </Item>
+          ))}
+        </ItemsList>
+      )}
+    </ListWrapper>
+  );
+};
 
 List.propTypes = {};
 
@@ -268,10 +242,12 @@ const Item = styled(NavLink)`
     }
   }
 
-  ${UnlockIcon} {
-      path {
-        stroke: ${({ theme }) => theme.textLight};
-      }    }
+  ${StyledUnlockIcon} {
+    path {
+      stroke {
+        ${({ theme }) => theme.textLight};
+      }
+    }    
   }
 `;
 

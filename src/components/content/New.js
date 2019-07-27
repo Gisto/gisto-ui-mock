@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { withTheme } from 'styled-components/macro';
 
 const New = ({ theme, setCurrentRoute }) => {
-  useEffect(() => setCurrentRoute('new'), [setCurrentRoute]);
+  setCurrentRoute('new');
 
   return (
     <ContentWrapper theme={theme}>

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { withTheme } from 'styled-components/macro';
 
 const Dashboard = ({ theme, setCurrentRoute }) => {
-  useEffect(() => setCurrentRoute('dashboard'), [setCurrentRoute]);
+  setCurrentRoute('dashboard');
 
   return (
     <ContentWrapper theme={theme}>
