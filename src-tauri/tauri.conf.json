@@ -54,7 +54,7 @@
     "windows": [
       {
         "title": "gisto-ui",
-        "width": 800,
+        "width": 1200,
         "height": 600,
         "resizable": true,
         "fullscreen": false
